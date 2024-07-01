@@ -19,14 +19,14 @@ data "aws_cloudfront_origin_request_policy" "all_viewer" {
 }
 
 module "api_gateway" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/api_gateway_v2/aws"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/api_gateway_v2/aws"
   version = "~> 1.0"
 
   name = module.resource_names["api_gateway"].minimal_random_suffix
 }
 
 module "cloudfront_distribution" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_primitive/cloudfront_distribution/aws"
+  source  = "terraform.registry.launch.nttdata.com/module_primitive/cloudfront_distribution/aws"
   version = "~> 1.0"
 
   origin = {
@@ -48,7 +48,7 @@ module "cloudfront_distribution" {
 }
 
 module "resource_names" {
-  source  = "d2lqlh14iel5k2.cloudfront.net/module_library/resource_name/launch"
+  source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
   version = "~> 1.0"
 
   for_each = var.resource_names_map
