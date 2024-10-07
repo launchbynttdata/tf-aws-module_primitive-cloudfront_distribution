@@ -193,7 +193,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     cloudfront_default_certificate = var.viewer_certificate.acm_certificate_arn == null && var.viewer_certificate.iam_certificate_id == null ? true : false
     acm_certificate_arn            = var.viewer_certificate.acm_certificate_arn
     iam_certificate_id             = var.viewer_certificate.iam_certificate_id
-    ssl_support_method             = var.viewer_certificate.acm_certificate_arn == null && var.viewer_certificate.iam_certificate_id == null ? var.viewer_certificate.ssl_support_method : null
+    ssl_support_method             = var.viewer_certificate.acm_certificate_arn != null || var.viewer_certificate.iam_certificate_id != null ? var.viewer_certificate.ssl_support_method : null
     minimum_protocol_version       = var.viewer_certificate.minimum_protocol_version
   }
 
