@@ -28,7 +28,6 @@ module "api_gateway" {
 module "cloudfront_distribution" {
   source  = "../.."
 
-
   origin = {
     api_gateway_backend = {
       domain_name = replace(module.api_gateway.api_endpoint, "https://", "")

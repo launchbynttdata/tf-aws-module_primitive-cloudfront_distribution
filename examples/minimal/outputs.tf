@@ -30,3 +30,8 @@ output "cloudfront_distribution_domain_name" {
   description = "The Domain Name of the CloudFront Distribution."
   value       = module.cloudfront_distribution.cloudfront_distribution_domain_name
 }
+
+output "cloudfront_distribution_hosted_zone_id" {
+  description = "The Hosted Zone ID of the CloudFront Distribution."
+  value       = module.cloudfront_distribution.cloudfront_distribution_hosted_zone_id
+}
