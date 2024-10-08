@@ -49,9 +49,9 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
       for_each = var.default_cache_behavior.lambda_function_association
 
       content {
-        event_type   = each.event_type
-        lambda_arn   = each.lambda_arn
-        include_body = each.include_body
+        event_type   = lambda_function_association.value.event_type
+        lambda_arn   = lambda_function_association.value.lambda_arn
+        include_body = lambda_function_association.value.include_body
       }
     }
 
@@ -59,8 +59,8 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
       for_each = var.default_cache_behavior.function_association
 
       content {
-        event_type   = each.event_type
-        function_arn = each.lambda_arn
+        event_type   = function_association.value.event_type
+        function_arn = function_association.value.lambda_arn
       }
     }
 
@@ -70,10 +70,10 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     for_each = var.custom_error_response
 
     content {
-      error_code            = each.error_code
-      response_code         = each.response_code
-      error_caching_min_ttl = each.error_caching_min_ttl
-      response_page_path    = each.response_page_path
+      error_code            = custom_error_response.value.error_code
+      response_code         = custom_error_response.value.response_code
+      error_caching_min_ttl = custom_error_response.value.error_caching_min_ttl
+      response_page_path    = custom_error_response.value.response_page_path
     }
   }
 
@@ -91,31 +91,31 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     for_each = var.ordered_cache_behavior
 
     content {
-      path_pattern     = each.path_pattern
-      allowed_methods  = each.allowed_methods
-      cached_methods   = each.cached_methods
-      target_origin_id = each.target_origin_id
-      min_ttl          = each.min_ttl
-      default_ttl      = each.default_ttl
-      max_ttl          = each.max_ttl
-      compress         = each.compress
+      path_pattern     = ordered_cache_behavior.value.path_pattern
+      allowed_methods  = ordered_cache_behavior.value.allowed_methods
+      cached_methods   = ordered_cache_behavior.value.cached_methods
+      target_origin_id = ordered_cache_behavior.value.target_origin_id
+      min_ttl          = ordered_cache_behavior.value.min_ttl
+      default_ttl      = ordered_cache_behavior.value.default_ttl
+      max_ttl          = ordered_cache_behavior.value.max_ttl
+      compress         = ordered_cache_behavior.value.compress
 
-      field_level_encryption_id  = each.field_level_encryption_id
-      realtime_log_config_arn    = each.realtime_log_config_arn
-      response_headers_policy_id = each.response_headers_policy_id
-      smooth_streaming           = each.smooth_streaming
-      trusted_key_groups         = each.trusted_key_groups
-      trusted_signers            = each.trusted_signers
+      field_level_encryption_id  = ordered_cache_behavior.value.field_level_encryption_id
+      realtime_log_config_arn    = ordered_cache_behavior.value.realtime_log_config_arn
+      response_headers_policy_id = ordered_cache_behavior.value.response_headers_policy_id
+      smooth_streaming           = ordered_cache_behavior.value.smooth_streaming
+      trusted_key_groups         = ordered_cache_behavior.value.trusted_key_groups
+      trusted_signers            = ordered_cache_behavior.value.trusted_signers
 
-      viewer_protocol_policy = each.viewer_protocol_policy
+      viewer_protocol_policy = ordered_cache_behavior.value.viewer_protocol_policy
 
       dynamic "lambda_function_association" {
         for_each = ordered_cache_behavior.value.lambda_function_association
 
         content {
-          event_type   = each.event_type
-          lambda_arn   = each.lambda_arn
-          include_body = each.include_body
+          event_type   = lambda_function_association.value.event_type
+          lambda_arn   = lambda_function_association.value.lambda_arn
+          include_body = lambda_function_association.value.include_body
         }
       }
 
@@ -123,8 +123,8 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
         for_each = ordered_cache_behavior.value.function_association
 
         content {
-          event_type   = each.event_type
-          function_arn = each.lambda_arn
+          event_type   = function_association.value.event_type
+          function_arn = function_association.value.lambda_arn
         }
       }
     }
@@ -146,8 +146,8 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
         for_each = origin.value.custom_header
 
         content {
-          name  = each.name
-          value = each.value
+          name  = custom_header.value.name
+          value = custom_header.value.value
         }
       }
 
@@ -193,7 +193,7 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
     cloudfront_default_certificate = var.viewer_certificate.acm_certificate_arn == null && var.viewer_certificate.iam_certificate_id == null ? true : false
     acm_certificate_arn            = var.viewer_certificate.acm_certificate_arn
     iam_certificate_id             = var.viewer_certificate.iam_certificate_id
-    ssl_support_method             = var.viewer_certificate.acm_certificate_arn == null && var.viewer_certificate.iam_certificate_id == null ? var.viewer_certificate.ssl_support_method : null
+    ssl_support_method             = var.viewer_certificate.acm_certificate_arn != null || var.viewer_certificate.iam_certificate_id != null ? var.viewer_certificate.ssl_support_method : null
     minimum_protocol_version       = var.viewer_certificate.minimum_protocol_version
   }
 

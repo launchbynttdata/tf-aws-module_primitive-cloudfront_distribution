@@ -26,8 +26,7 @@ module "api_gateway" {
 }
 
 module "cloudfront_distribution" {
-  source  = "terraform.registry.launch.nttdata.com/module_primitive/cloudfront_distribution/aws"
-  version = "~> 1.0"
+  source  = "../.."
 
   origin = {
     api_gateway_backend = {
