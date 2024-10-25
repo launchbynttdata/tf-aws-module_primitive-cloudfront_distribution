@@ -26,7 +26,7 @@ module "api_gateway" {
 }
 
 module "cloudfront_distribution" {
-  source  = "../.."
+  source = "../.."
 
   origin = {
     api_gateway_backend = {
@@ -48,7 +48,7 @@ module "cloudfront_distribution" {
 
 module "resource_names" {
   source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
-  version = "~> 1.0"
+  version = "~> 2.0"
 
   for_each = var.resource_names_map
 
