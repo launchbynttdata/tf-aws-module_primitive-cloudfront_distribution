@@ -17,6 +17,8 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   comment                         = var.comment
   continuous_deployment_policy_id = var.continuous_deployment_policy_id
   default_root_object             = var.default_root_object
+  http_version                    = var.http_version
+  price_class                     = var.price_class
   is_ipv6_enabled                 = var.is_ipv6_enabled
   staging                         = var.staging
   web_acl_id                      = var.web_acl_id
