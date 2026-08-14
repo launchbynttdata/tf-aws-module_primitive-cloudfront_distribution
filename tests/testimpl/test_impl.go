@@ -17,10 +17,10 @@ func TestComposableComplete(t *testing.T, ctx types.TestContext) {
 	awsClient := GetAWSCloudFrontClient(t)
 
 	t.Run("TestCloudFrontDistributionExists", func(t *testing.T) {
-		awsCloudFrontDistributionId := terraform.Output(t, ctx.TerratestTerraformOptions(), "cloudfront_distribution_id")
-		awsCloudFrontDistributionArn := terraform.Output(t, ctx.TerratestTerraformOptions(), "cloudfront_distribution_arn")
-		awsCloudFrontDistributionStatus := terraform.Output(t, ctx.TerratestTerraformOptions(), "cloudfront_distribution_status")
-		awsCloudFrontDistributionDomainName := terraform.Output(t, ctx.TerratestTerraformOptions(), "cloudfront_distribution_domain_name")
+		awsCloudFrontDistributionId := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "cloudfront_distribution_id")
+		awsCloudFrontDistributionArn := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "cloudfront_distribution_arn")
+		awsCloudFrontDistributionStatus := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "cloudfront_distribution_status")
+		awsCloudFrontDistributionDomainName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "cloudfront_distribution_domain_name")
 
 		awsCloudFrontDistribution, err := awsClient.GetDistribution(context.TODO(), &cloudfront.GetDistributionInput{
 			Id: &awsCloudFrontDistributionId,
